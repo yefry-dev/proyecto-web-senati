@@ -1,1 +1,760 @@
-<h1>Hola desde mi web</h1> 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SENATI — Formación Técnica de Excelencia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --g0: #0a1a0d;
+      --g1: #0f2a12;
+      --g2: #1a4520;
+      --g3: #246b2c;
+      --g4: #2e9438;
+      --g5: #3dbf4a;
+      --g6: #6ddc78;
+      --g7: #a8f0b0;
+      --gold: #c8a84b;
+      --gold-light: #e8c96a;
+      --white: #f0f7f1;
+      --muted: #7aad82;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+ 
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+ 
+    html { scroll-behavior: smooth; }
+ 
+    body {
+      background: var(--g0);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+ 
+    /* ─── NOISE TEXTURE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: .4;
+    }
+ 
+    /* ─── TOPBAR ─── */
+    .topbar {
+      background: var(--g2);
+      border-bottom: 1px solid var(--g3);
+      padding: 8px 60px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 11px; letter-spacing: .12em; color: var(--muted);
+      text-transform: uppercase;
+    }
+    .topbar span { display: flex; align-items: center; gap: 6px; }
+    .topbar .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--g5); display: inline-block; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+ 
+    /* ─── NAV ─── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,26,13,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--g2);
+      padding: 0 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 70px;
+    }
+    .logo-wrap { display: flex; align-items: center; gap: 14px; }
+    .logo-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--g4), var(--g6));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: 20px; color: var(--g0);
+      box-shadow: 0 0 20px rgba(61,191,74,.3);
+    }
+    .logo-text { font-family: var(--font-display); font-size: 28px; letter-spacing: .06em; color: var(--white); }
+    .logo-sub { font-size: 9px; letter-spacing: .2em; color: var(--muted); text-transform: uppercase; margin-top: -4px; }
+    nav ul { list-style: none; display: flex; gap: 36px; }
+    nav ul li a {
+      color: var(--muted); text-decoration: none;
+      font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+      transition: color .25s;
+      position: relative; padding-bottom: 4px;
+    }
+    nav ul li a::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 1px; background: var(--g5);
+      transition: width .3s;
+    }
+    nav ul li a:hover { color: var(--g6); }
+    nav ul li a:hover::after { width: 100%; }
+    .nav-cta {
+      background: var(--g4); color: var(--g0) !important;
+      padding: 8px 22px; border-radius: 4px;
+      font-weight: 600 !important; letter-spacing: .08em !important;
+      transition: background .25s, transform .2s !important;
+    }
+    .nav-cta:hover { background: var(--g5) !important; transform: translateY(-1px); }
+    .nav-cta::after { display: none !important; }
+ 
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: grid; place-items: center;
+      overflow: hidden;
+      padding: 80px 60px;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 40%, rgba(46,148,56,.18) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 80% at 10% 80%, rgba(26,69,32,.4) 0%, transparent 60%),
+        linear-gradient(160deg, var(--g0) 0%, #0d2210 50%, var(--g0) 100%);
+    }
+    /* Decorative grid */
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(46,148,56,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46,148,56,.07) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+    }
+    /* Floating circles */
+    .hero::after {
+      content: '';
+      position: absolute; right: 8%; top: 20%;
+      width: 340px; height: 340px;
+      border-radius: 50%;
+      border: 1px solid rgba(61,191,74,.12);
+      box-shadow: 0 0 80px rgba(61,191,74,.08) inset;
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+ 
+    .hero-content { position: relative; z-index: 2; max-width: 820px; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 11px; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--g5); margin-bottom: 28px;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block;
+      width: 32px; height: 1px; background: var(--g5);
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(64px, 9vw, 120px);
+      line-height: .92;
+      letter-spacing: .01em;
+      color: var(--white);
+      margin-bottom: 28px;
+    }
+    h1 em {
+      font-style: normal;
+      -webkit-text-stroke: 1.5px var(--g5);
+      color: transparent;
+    }
+    .hero-desc {
+      font-size: 16px; line-height: 1.75;
+      color: var(--muted); max-width: 560px;
+      margin-bottom: 44px;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, var(--g4), var(--g5));
+      color: var(--g0); padding: 16px 36px;
+      border-radius: 4px; text-decoration: none;
+      font-size: 13px; letter-spacing: .1em; font-weight: 600;
+      text-transform: uppercase;
+      box-shadow: 0 8px 32px rgba(46,148,56,.35);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(46,148,56,.5); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 10px;
+      border: 1px solid var(--g3); color: var(--white);
+      padding: 16px 36px; border-radius: 4px; text-decoration: none;
+      font-size: 13px; letter-spacing: .1em; text-transform: uppercase;
+      transition: border-color .25s, color .25s;
+    }
+    .btn-outline:hover { border-color: var(--g5); color: var(--g6); }
+ 
+    /* Stats bar */
+    .stats-bar {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(15,42,18,.8);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid var(--g2);
+      padding: 28px 60px;
+      display: flex; justify-content: space-around;
+      z-index: 2;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 42px; line-height: 1;
+      background: linear-gradient(135deg, var(--g5), var(--g7));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label { font-size: 10px; letter-spacing: .18em; color: var(--muted); text-transform: uppercase; margin-top: 6px; }
+ 
+    /* ─── SECTION COMMON ─── */
+    section { padding: 100px 60px; position: relative; }
+    .section-tag {
+      font-size: 10px; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--g5); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-tag::before { content:''; display:block; width:24px; height:1px; background:var(--g5); }
+    h2 {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5vw, 68px);
+      line-height: 1; color: var(--white);
+      margin-bottom: 20px;
+    }
+    .subtitle { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 560px; }
+ 
+    /* ─── PROGRAMS ─── */
+    .programs { background: var(--g1); }
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2px; margin-top: 64px;
+      border: 2px solid var(--g2); border-radius: 8px; overflow: hidden;
+    }
+    .program-card {
+      background: var(--g0);
+      padding: 40px 36px;
+      position: relative;
+      transition: background .3s;
+      cursor: default;
+      overflow: hidden;
+    }
+    .program-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 3px; height: 0;
+      background: linear-gradient(to bottom, var(--g5), var(--g3));
+      transition: height .4s ease;
+    }
+    .program-card:hover { background: var(--g1); }
+    .program-card:hover::before { height: 100%; }
+    .card-num {
+      font-family: var(--font-display);
+      font-size: 56px; color: var(--g2);
+      line-height: 1; margin-bottom: 16px;
+      transition: color .3s;
+    }
+    .program-card:hover .card-num { color: var(--g3); }
+    .card-title {
+      font-size: 18px; font-weight: 600;
+      color: var(--white); margin-bottom: 12px;
+    }
+    .card-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+    .card-tag {
+      margin-top: 24px; display: inline-block;
+      background: rgba(46,148,56,.15); border: 1px solid var(--g3);
+      color: var(--g5); font-size: 10px;
+      letter-spacing: .15em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 20px;
+    }
+ 
+    /* ─── WHY SENATI ─── */
+    .why { background: var(--g0); }
+    .why-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-top: 64px; }
+    .why-list { display: flex; flex-direction: column; gap: 0; }
+    .why-item {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--g2);
+      display: flex; gap: 24px; align-items: flex-start;
+      transition: padding-left .3s;
+    }
+    .why-item:hover { padding-left: 8px; }
+    .why-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: rgba(46,148,56,.12); border: 1px solid var(--g3);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .why-info h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .why-info p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+    .why-visual {
+      position: sticky; top: 100px;
+      background: var(--g1);
+      border: 1px solid var(--g2); border-radius: 12px;
+      padding: 48px;
+      display: flex; flex-direction: column; gap: 32px;
+    }
+    .metric-row { display: flex; align-items: flex-end; gap: 16px; }
+    .metric-bar-wrap { flex: 1; }
+    .metric-label { font-size: 11px; letter-spacing: .12em; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+    .metric-bar {
+      height: 8px; border-radius: 4px;
+      background: var(--g2);
+      overflow: hidden;
+    }
+    .metric-fill {
+      height: 100%; border-radius: 4px;
+      background: linear-gradient(90deg, var(--g4), var(--g6));
+      animation: fillBar 1.4s ease forwards;
+      width: 0;
+    }
+    @keyframes fillBar { to { width: var(--w); } }
+    .metric-val { font-family: var(--font-display); font-size: 28px; color: var(--g6); min-width: 60px; text-align: right; }
+ 
+    /* ─── TESTIMONIALS ─── */
+    .testimonials { background: var(--g1); }
+    .testi-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 24px; margin-top: 64px;
+    }
+    .testi-card {
+      background: var(--g0);
+      border: 1px solid var(--g2); border-radius: 8px;
+      padding: 36px 32px;
+      position: relative;
+      transition: border-color .3s, transform .3s;
+    }
+    .testi-card:hover { border-color: var(--g4); transform: translateY(-4px); }
+    .testi-card::before {
+      content: '\201C';
+      font-family: Georgia, serif; font-size: 80px;
+      color: var(--g3); position: absolute;
+      top: 12px; left: 28px; line-height: 1;
+    }
+    .testi-text {
+      font-size: 14px; line-height: 1.75; color: var(--muted);
+      margin-top: 32px; margin-bottom: 28px;
+    }
+    .testi-author { display: flex; align-items: center; gap: 14px; }
+    .testi-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--g3), var(--g5));
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 18px; color: var(--g0);
+    }
+    .testi-name { font-size: 13px; font-weight: 600; }
+    .testi-role { font-size: 11px; color: var(--muted); letter-spacing: .06em; }
+ 
+    /* ─── ADMISSION ─── */
+    .admission {
+      background: var(--g0);
+      border-top: 1px solid var(--g2);
+    }
+    .admission-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .steps { display: flex; flex-direction: column; gap: 0; margin-top: 40px; }
+    .step {
+      display: flex; gap: 24px;
+      padding-bottom: 36px;
+      position: relative;
+    }
+    .step:not(:last-child)::before {
+      content: '';
+      position: absolute; left: 19px; top: 40px;
+      width: 1px; bottom: 0;
+      background: linear-gradient(to bottom, var(--g4), transparent);
+    }
+    .step-num {
+      width: 40px; height: 40px; flex-shrink: 0;
+      border-radius: 50%;
+      background: var(--g2); border: 1px solid var(--g4);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 18px; color: var(--g5);
+    }
+    .step-info h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: var(--white); }
+    .step-info p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+    .admission-cta {
+      background: linear-gradient(135deg, var(--g2), var(--g1));
+      border: 1px solid var(--g3); border-radius: 12px;
+      padding: 52px 44px;
+      text-align: center;
+    }
+    .admission-cta h3 { font-family: var(--font-display); font-size: 40px; margin-bottom: 12px; }
+    .admission-cta p { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 32px; }
+    .cta-big {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--g4), var(--g5));
+      color: var(--g0); padding: 18px 48px;
+      border-radius: 6px; text-decoration: none;
+      font-size: 14px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+      box-shadow: 0 10px 40px rgba(46,148,56,.4);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .cta-big:hover { transform: translateY(-3px); box-shadow: 0 16px 50px rgba(46,148,56,.55); }
+    .deadline {
+      margin-top: 20px; font-size: 11px; letter-spacing: .12em;
+      color: var(--muted); text-transform: uppercase;
+    }
+    .deadline strong { color: var(--gold-light); }
+ 
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--g1);
+      border-top: 1px solid var(--g2);
+      padding: 64px 60px 36px;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 60px; margin-bottom: 56px;
+    }
+    .footer-brand .logo-text { font-size: 32px; }
+    .footer-desc { font-size: 13px; color: var(--muted); line-height: 1.7; margin-top: 16px; max-width: 280px; }
+    .footer-col h4 {
+      font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--g5); margin-bottom: 20px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a {
+      color: var(--muted); text-decoration: none; font-size: 13px;
+      transition: color .25s;
+    }
+    .footer-col ul li a:hover { color: var(--g6); }
+    .footer-bottom {
+      border-top: 1px solid var(--g2);
+      padding-top: 28px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-bottom p { font-size: 11px; color: var(--muted); letter-spacing: .06em; }
+    .footer-badge {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 11px; color: var(--muted);
+    }
+    .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--g5); animation: pulse 2s infinite; }
+ 
+    /* ─── SCROLL ANIMATIONS ─── */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+ 
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav ul { display: none; }
+      .topbar { padding: 8px 24px; }
+      section, nav, .stats-bar, footer { padding-left: 24px; padding-right: 24px; }
+      .why-layout, .admission-inner, .footer-grid { grid-template-columns: 1fr; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .programs-grid { grid-template-columns: 1fr; }
+      .why-visual { position: static; }
+    }
+  </style>
+</head>
+<body>
+ 
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <span><span class="dot"></span> Inscripciones abiertas 2025 — II</span>
+    <span>Lima · Arequipa · Trujillo · Cusco · Piura</span>
+  </div>
+ 
+  <!-- NAV -->
+  <nav>
+    <div class="logo-wrap">
+      <div class="logo-icon">S</div>
+      <div>
+        <div class="logo-text">SENATI</div>
+        <div class="logo-sub">Formación Técnica</div>
+      </div>
+    </div>
+    <ul>
+      <li><a href="#programas">Programas</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#testimonios">Egresados</a></li>
+      <li><a href="#admision">Admisión</a></li>
+      <li><a href="#admision" class="nav-cta">Postular</a></li>
+    </ul>
+  </nav>
+ 
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content reveal">
+      <div class="hero-eyebrow">Desde 1961 formando el Perú</div>
+      <h1>FORJA TU<br/><em>FUTURO</em><br/>TÉCNICO</h1>
+      <p class="hero-desc">
+        El instituto líder en formación técnico-profesional del Perú. Más de 60 años impulsando el desarrollo industrial con educación de clase mundial.
+      </p>
+      <div class="hero-actions">
+        <a href="#admision" class="btn-primary">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Iniciar mi postulación
+        </a>
+        <a href="#programas" class="btn-outline">Ver programas</a>
+      </div>
+    </div>
+    <div class="stats-bar">
+      <div class="stat"><div class="stat-num">200+</div><div class="stat-label">Especialidades</div></div>
+      <div class="stat"><div class="stat-num">90K+</div><div class="stat-label">Estudiantes activos</div></div>
+      <div class="stat"><div class="stat-num">96%</div><div class="stat-label">Empleabilidad</div></div>
+      <div class="stat"><div class="stat-num">63</div><div class="stat-label">Años de excelencia</div></div>
+      <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Sedes a nivel nacional</div></div>
+    </div>
+  </div>
+ 
+  <!-- PROGRAMAS -->
+  <section class="programs" id="programas">
+    <div class="section-tag">Oferta académica</div>
+    <h2>PROGRAMAS<br/>DE ESTUDIO</h2>
+    <p class="subtitle">Carreras diseñadas junto a la industria para garantizarte empleabilidad real desde el primer día y tener exito en tu vida.</p>
+    <div class="programs-grid reveal">
+      <div class="program-card">
+        <div class="card-num">01</div>
+        <div class="card-title">Mecánica y Automotriz</div>
+        <div class="card-desc">Diagnóstico, mantenimiento y reparación de sistemas automotrices convencionales e híbridos con tecnología de punta.</div>
+        <span class="card-tag">3 años</span>
+      </div>
+      <div class="program-card">
+        <div class="card-num">02</div>
+        <div class="card-title">Electrónica Industrial</div>
+        <div class="card-desc">Automatización, PLC, robótica industrial y sistemas de control aplicados a procesos productivos modernos.</div>
+        <span class="card-tag">3 años</span>
+      </div>
+      <div class="program-card">
+        <div class="card-num">03</div>
+        <div class="card-title">Computación e Informática</div>
+        <div class="card-desc">Desarrollo de software, redes, ciberseguridad y administración de sistemas con enfoque en proyectos reales.</div>
+        <span class="card-tag">3 años</span>
+      </div>
+      <div class="program-card">
+        <div class="card-num">04</div>
+        <div class="card-title">Administración Industrial</div>
+        <div class="card-desc">Gestión de operaciones, logística, calidad y dirección de equipos con metodologías ágiles aplicadas.</div>
+        <span class="card-tag">3 años</span>
+      </div>
+      <div class="program-card">
+        <div class="card-num">05</div>
+        <div class="card-title">Construcción Civil</div>
+        <div class="card-desc">Diseño, supervisión y ejecución de proyectos de infraestructura con normas técnicas y BIM.</div>
+        <span class="card-tag">3 años</span>
+      </div>
+      <div class="program-card">
+        <div class="card-num">06</div>
+        <div class="card-title">Confección Textil</div>
+        <div class="card-desc">Diseño de modas, patronaje industrial, control de calidad y gestión de la cadena productiva textil.</div>
+        <span class="card-tag">3 años</span>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- POR QUÉ SENATI -->
+  <section class="why" id="nosotros">
+    <div class="section-tag">Nuestra propuesta</div>
+    <h2>¿POR QUÉ<br/>ELEGIR SENATI?</h2>
+    <p class="subtitle">Una metodología única que combina formación teórica con práctica intensiva en taller desde el primer semestre.</p>
+    <div class="why-layout">
+      <div class="why-list reveal">
+        <div class="why-item">
+          <div class="why-icon">⚙️</div>
+          <div class="why-info">
+            <h3>Metodología Dual</h3>
+            <p>70% práctica y 30% teoría. Trabajas en talleres y plantas industriales reales desde el inicio de tu carrera.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">🏭</div>
+          <div class="why-info">
+            <h3>Alianzas con la Industria</h3>
+            <p>Más de 3,000 empresas asociadas que participan activamente en el diseño curricular y ofrecen práticas pagadas.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">🎓</div>
+          <div class="why-info">
+            <h3>Título Oficial Reconocido</h3>
+            <p>Grado Técnico reconocido por el MINEDU y validado internacionalmente en más de 20 países.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">💼</div>
+          <div class="why-info">
+            <h3>Bolsa de Trabajo Exclusiva</h3>
+            <p>Acceso permanente a nuestra bolsa de empleo con más de 5,000 vacantes activas en empresas líderes.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">🌐</div>
+          <div class="why-info">
+            <h3>Presencia Nacional</h3>
+            <p>50+ sedes en todo el Perú para que estudies sin importar en qué región te encuentres.</p>
+          </div>
+        </div>
+      </div>
+      <div class="why-visual reveal">
+        <div class="section-tag" style="margin-bottom:8px">Indicadores 2024</div>
+        <div class="metric-row">
+          <div class="metric-bar-wrap">
+            <div class="metric-label">Empleabilidad al egreso</div>
+            <div class="metric-bar"><div class="metric-fill" style="--w:96%"></div></div>
+          </div>
+          <div class="metric-val">96%</div>
+        </div>
+        <div class="metric-row">
+          <div class="metric-bar-wrap">
+            <div class="metric-label">Satisfacción estudiantil</div>
+            <div class="metric-bar"><div class="metric-fill" style="--w:91%"></div></div>
+          </div>
+          <div class="metric-val">91%</div>
+        </div>
+        <div class="metric-row">
+          <div class="metric-bar-wrap">
+            <div class="metric-label">Empresas que contratan</div>
+            <div class="metric-bar"><div class="metric-fill" style="--w:84%"></div></div>
+          </div>
+          <div class="metric-val">3K+</div>
+        </div>
+        <div class="metric-row">
+          <div class="metric-bar-wrap">
+            <div class="metric-label">Retención académica</div>
+            <div class="metric-bar"><div class="metric-fill" style="--w:88%"></div></div>
+          </div>
+          <div class="metric-val">88%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- TESTIMONIOS -->
+  <section class="testimonials" id="testimonios">
+    <div class="section-tag">Voces reales</div>
+    <h2>LO QUE DICEN<br/>NUESTROS EGRESADOS</h2>
+    <div class="testi-grid reveal">
+      <div class="testi-card">
+        <div class="testi-text">SENATI me dio algo que ninguna universidad hubiera podido: práctica desde el primer día. A los tres meses de egresar ya estaba trabajando en una planta en Lurín con un sueldo que nunca esperé.</div>
+        <div class="testi-author">
+          <div class="testi-avatar">C</div>
+          <div><div class="testi-name">Carlos Quispe M.</div><div class="testi-role">Egresado · Mecánica Industrial</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-text">Los talleres con equipos reales marcan la diferencia. Cuando llegué a mi primera empresa, ya sabía operar la maquinaria. Mis compañeros de universidad tardaron meses en adaptarse.</div>
+        <div class="testi-author">
+          <div class="testi-avatar">L</div>
+          <div><div class="testi-name">Lucía Fernández R.</div><div class="testi-role">Egresada · Electrónica Industrial</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-text">Estudié computación en SENATI y hoy lidero el área de TI de una fintech en Lima. La formación es seria, exigente y muy alineada a lo que el mercado realmente pide.</div>
+        <div class="testi-author">
+          <div class="testi-avatar">M</div>
+          <div><div class="testi-name">Miguel Tapia V.</div><div class="testi-role">Egresado · Computación e Informática</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ADMISION -->
+  <section class="admission" id="admision">
+    <div class="admission-inner">
+      <div class="reveal">
+        <div class="section-tag">Proceso de admisión</div>
+        <h2>EMPIEZA<br/>HOY MISMO</h2>
+        <p class="subtitle">El proceso es simple, ágil y puedes completarlo en menos de una semana.</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-info">
+              <h3>Registro en línea</h3>
+              <p>Completa el formulario con tus datos personales y elige la carrera y sede de tu preferencia.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-info">
+              <h3>Entrevista vocacional</h3>
+              <p>Una sesión breve con nuestros orientadores para confirmar que la carrera elegida es la ideal para ti.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-info">
+              <h3>Entrega de documentos</h3>
+              <p>DNI, partida de nacimiento, certificado de estudios y foto carné. Todo puede enviarse digitalmente.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-info">
+              <h3>Matrícula y bienvenida</h3>
+              <p>Confirma tu matrícula y recibe acceso a nuestra plataforma virtual, materiales y cronograma.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="admission-cta reveal">
+        <h3>¿LISTO PARA<br/>EL SIGUIENTE<br/>PASO?</h3>
+        <p>Únete a los miles de técnicos que cada año eligen SENATI para transformar su futuro.</p>
+        <a href="#" class="cta-big">Postular ahora</a>
+        <p class="deadline">Cierre de inscripciones: <strong>15 de mayo 2025</strong></p>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-wrap">
+          <div class="logo-icon">S</div>
+          <div>
+            <div class="logo-text">SENATI</div>
+            <div class="logo-sub">Servicio Nacional de Adiestramiento en Trabajo Industrial</div>
+          </div>
+        </div>
+        <p class="footer-desc">Formando técnicos de excelencia para el desarrollo del Perú desde 1961. Educación que transforma vidas y construye futuro.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Programas</h4>
+        <ul>
+          <li><a href="#">Mecánica Automotriz</a></li>
+          <li><a href="#">Electrónica</a></li>
+          <li><a href="#">Computación</a></li>
+          <li><a href="#">Administración</a></li>
+          <li><a href="#">Construcción</a></li>
+          <li><a href="#">Confección</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Institución</h4>
+        <ul>
+          <li><a href="#">Quiénes somos</a></li>
+          <li><a href="#">Historia</a></li>
+          <li><a href="#">Acreditaciones</a></li>
+          <li><a href="#">Alianzas</a></li>
+          <li><a href="#">Docentes</a></li>
+          <li><a href="#">Noticias</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="#">Sedes</a></li>
+          <li><a href="#">Orientación vocacional</a></li>
+          <li><a href="#">Bolsa de trabajo</a></li>
+          <li><a href="#">Empresas aliadas</a></li>
+          <li><a href="#">Portal del estudiante</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 SENATI — Todos los derechos reservados.</p>
+      <div class="footer-badge"><span class="badge-dot"></span> Acreditado por el Minedu · ISO 9001</div>
+    </div>
+  </footer>
+ 
+  <script>
+    // Scroll reveal
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
