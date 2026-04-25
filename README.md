@@ -30,9 +30,6 @@ Para mantener el código profesional y escalable, el proyecto se organiza de la 
 
 ##  Vista Previa
 
-> [!TIP]
-> Puedes añadir aquí una captura de pantalla de tu página o un GIF mostrando las animaciones de scroll.
-
 <img width="1860" height="872" alt="Captura1" src="https://github.com/user-attachments/assets/0173ffb9-71d1-41e9-bd5f-7f3007ed5a2c" />
 
 
